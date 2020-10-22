@@ -1,0 +1,3 @@
+[submodule "boostasiodemo/asio"]
+	path = boostasiodemo/asio
+	url = https://github.com/chriskohlhoff/asio
