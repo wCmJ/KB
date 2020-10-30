@@ -1,0 +1,19 @@
+java:
+	javac hw.java
+	java hw
+
+	创建线程方法：
+		- Thread(Runnable), 将一个实现了Runnable接口的对象包装成一个线程
+		- 从Thread类派生出子类并重写run方法，使用该子类创建的对象即为线程
+
+JAVA_HOME | PATH | CLASSPATH
+
+类名首字母大写 ｜ 方法首字母小写 ｜ 源文件名与类名相同 ｜ 主方法（public static void main(String[] args)）
+
+标志符以字母/下划线/$开始 ｜ 首字符之后可以是字母/数字/下划线/$
+
+访问控制修饰符：default/public/protected/private
+非访问控制修饰符：final/abstract/static/synchronized
+
+
+

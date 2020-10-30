@@ -1,0 +1,7 @@
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/test/build/CMakeFiles/rebuild_cache.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/test/build/CMakeFiles/edit_cache.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/test/build/CMakeFiles/async_write.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/test/build/CMakeFiles/async_read.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/test/build/CMakeFiles/timercc.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/test/build/CMakeFiles/timeout_operation.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/test/build/CMakeFiles/server_client.dir
