@@ -152,5 +152,10 @@ klink:
             - pointer = new Type();
         - 输出(reinterpret_cast<jlong>(pointer));
 
-    Type由jniInternalCpp提供，
+    Type由jniInternalCpp提供
+    初始化：construct接口new对象，返回给java层（将地址转为jlong类型，reinterpret_cast<jlong>(pointer)）
+    释放：destruct接口取出该对象，delete（GetLongField(obj, GetFieldId）
+
+
+
 

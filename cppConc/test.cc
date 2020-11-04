@@ -315,8 +315,29 @@ double square_root(double x){
 }
 using std::list;
 
+class TH_test{
+public:
+    int th_func(){
+        sleep(3);
+        std::cout<<"class::th_func: "<<std::this_thread::get_id()<<std::endl;        
+        return 1;
+    }
+};
+
+
+
 int main(){
     {
+        {
+            TH_test tt;
+            std::thread th = std::thread(static_cast<int (TH_test::*)()>(&TH_test::th_func), &tt);
+            std::cout<<"main::"<<std::this_thread::get_id()<<std::endl;
+            sleep(5);
+            return 0;
+        }
+
+
+
 
         {
 
