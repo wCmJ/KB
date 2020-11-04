@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/exam.cc
+iostream
+-
+thread
+-
+unistd.h
+-
+vector
+-
+

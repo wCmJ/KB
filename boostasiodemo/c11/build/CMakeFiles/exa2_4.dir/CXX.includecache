@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/exa2_4.cc
+iostream
+-
+thread
+-
+functional
+-
+vector
+-
+numeric
+-
+

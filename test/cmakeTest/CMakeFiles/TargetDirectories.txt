@@ -1,0 +1,3 @@
+/Users/youliwei/Documents/test/cmakeTest/CMakeFiles/rebuild_cache.dir
+/Users/youliwei/Documents/test/cmakeTest/CMakeFiles/edit_cache.dir
+/Users/youliwei/Documents/test/cmakeTest/CMakeFiles/app.dir

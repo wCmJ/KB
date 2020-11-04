@@ -1,0 +1,160 @@
+cmake版本要求：
+    - cmake_minimum_required(VERSION 3.5)
+project名称：
+    - project(hello_cmake)
+可执行程序依赖的源文件：
+    - add_executable(${PROJECT_NAME} main.cpp)
+设置源文件：
+    - set(SOURCES 
+    src/main.cpp
+    src/hello.cpp
+)
+    - add_executable(${PROJECT_NAME} ${SOURCES})
+设置project的头文件路径：
+    - target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
+生成一个静态库：
+    - add_library(hello_library STATIC src/hello.cpp)
+生成一个动态库：
+    - add_library(hello_library SHARED src/hello.cpp)
+库别名：
+    - add_library(hello::library ALIAS hello_library)
+
+
+设置库依赖的头文件：
+    - target_include_directories(hello_library PUBLIC ${PROJECT_SOURCE_DIR}/include)
+    其中的public表示该头文件的属性：1.在编译库时被使用；2.在编译其他依赖该库的target时被使用。
+    头文件所在路径为：dir/include/static/hello.h
+    所以在源文件中，需要#include “static/hello.h”
+    
+PRIVATE：该目录仅被添加至当前目标的include directory
+INTERFACE：该目录被添加至任何link这个library的target的include directory
+PUBLIC：PRIVATE + INTERFACE
+
+
+链接静态库：
+    - target_link_libraries(hello_binary
+    PRIVATE
+        hello_library
+)
+链接动态库：
+    - target_link_libraries(hello_binary
+    PRIVATE
+        hello::library
+)
+
+生成make install：cmake .. -DCMAKE_INSTALL_PREFIX=/install/location
+    安装二进制文件：install(TARGETS hello_binary DESTINATION bin) # DESTINATION is ${CMAKE_INSTALL_PREFIX}/bin
+    安装shared库文件：install(TARGETS hello_library LIBRARY DESTINATION lib) # DESTINATION is ${CMAKE_INSTALL_PREFIX}/lib
+        on windows: install(TARGETS hello_library LIBRARY DESTINATION lib RUNTIME DESTINATION bin)
+    安装库的头文件：install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include) # DESTINATION is ${CMAKE_INSTALL_PREFIX}/include
+    安装配置文件：install(FILES cmake-examples.conf DESTINATION etc) # DESTINATION is ${CMAKE_INSTALL_PREFIX}/etc
+
+    CMAKE_INSTALL_PREFIX defaults to /usr/local/
+    修改默认路径：
+    if( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
+        message(STATUS "Setting default CMAKE_INSTALL_PREFIX path to ${CMAKE_BINARY_DIR}/install")
+        set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE STRING "The path to use for make install" FORCE)
+    endif()
+
+    指定一个安装路径： make install DESTDIR=/tmp/stage
+        所有文件将被安装在/tmp/stage/usr/local/下
+
+优化级别：
+    -O0 -O1 -O2 -O3 -Og -Os -Ofast
+cmake .. -DCMAKE_BUILD_TYPE=Release
+
+包含第三方库：
+    find_package(): 在CMAKE_MODULE_PATH中搜索
+    find_package(Boost 1.46.1 REQUIRED COMPONENTS filesystem system)
+    Boost: FindBoost.cmake
+    1.46.1: the minimum version of boost to find
+    REQUIRED: tells the module that this is required and to fail it it cannot be found
+    COMPONENTS: the list of libraries to find
+
+    使用XXX_FOUND to check if the package is available on the system
+    if(Boost_FOUND)
+
+    else()
+
+    endif()
+    如果一个package被找到之后，在FindXXX.cmake文件中，定义了Boost_INCLUDE_DIRS- the path to the boost header files.
+    Boost::filesystem表示filesystem库
+    也可以用另一种方式来表示：
+        target_include_directories(third_party_include
+            PRIVATE ${Boost_INCLUDE_DIRS}
+        )
+        target_link_libraries(third_party_include
+            PRIVATE
+            ${Boost_SYSTEM_LIBRARY}
+            ${Boost_FILESYSTEM_LIBRARY}
+        )
+
+修改编译器：
+    cmake .. -DCMAKE_C_COMPILER=clang-3.6 -DCMAKE_CXX_COMPILER=clang++-3.6
+
+build with ninja:
+    cmake .. -G Ninja will generate the required Ninja build files, which can be run from using ninja command.
+
+设置c++标准：set(CMAKE_CXX_STANDARD 11)
+
+
+
+
+
+
+
+
+配置动态库路径： LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
+nm *.o *.a *.so
+    查看符号信息，T：全局非静态函数。 U：该符号未定义过，需要从其他文件中链接进来。W：未明确指定的弱链接符号，有定义就使用，没有就用系统指定的默认值。
+    .so: -shared   .dylib: -dynamiclib
+
+
+
+
+
+
+add_library()
+
+
+add_executable(hello_cmake main.cpp)
+add_executable(${PROJECT_NAME} main.cpp)    #project() will create a variable ${PROJECT_NAME} with the value hello_cmake
+
+set(SOURCES 
+    src/hello.cpp
+    src/main.cpp
+)
+file(GLOB SOURCES "src/*.cpp")
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_include_directories(target
+    PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+
+
+
+
+
+
+
+#   CMAKE_BINARY_DIR is the root or top level folder that you run the cmake command from
+in-place build: cmake .
+out-of-source build: mkdir build && cd build && cmake .. && make
+
+
+${PROJECT_NAME} = project()
+${CMAKE_BINARY_DIR} is root 
+${CMAKE_SOURCE_DIR}: the root source derectory
+
+message("CMAKE_SOURCE_DIR: " ${CMAKE_SOURCE_DIR})
+message("CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
+message("PROJECT_SOURCE_DIR: " ${PROJECT_SOURCE_DIR})
+message("CMAKE_BINARY_DIR: " ${CMAKE_BINARY_DIR})
+message("CMAKE_CURRENT_BINARY_DIR: " ${CMAKE_CURRENT_BINARY_DIR})
+message("PROJECT_BINARY_DIR: " ${PROJECT_BINARY_DIR})
+

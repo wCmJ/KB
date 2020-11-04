@@ -1,0 +1,6 @@
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/build/CMakeFiles/rebuild_cache.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/build/CMakeFiles/condition_test.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/build/CMakeFiles/client_timer_test.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/build/CMakeFiles/exa2_4.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/build/CMakeFiles/edit_cache.dir
+/Users/youliwei/Documents/github/KS-boost.asio/boostasiodemo/c11/build/CMakeFiles/exam.dir

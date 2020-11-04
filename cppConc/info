@@ -1,0 +1,33 @@
+线程内部不要持有其他线程局部变量的引用，除非能保证在线程结束前，该变量一直有效。
+线程detach之后，由c++ runtime library负责回收。不能再通过std::thread对象引用它。
+启动线程、等待线程结束、线程后台执行、传递参数、转移线程管理权、获取线程id。
+
+
+fix race condition:
+    - wrap your data structure with a protection mechanism
+        to ensure that only the thread actually performing a modification can see the intermediate states where the invariants are broken.
+    - modify the design of your data structure and its invariants(lock-free programming)
+        the nuances of the memory model and identifying which threads can potentially see thich set of values can get complicated.
+
+单例模式：
+    - 双重判断
+    - static
+    - call_once with once_flag
+
+同步：
+    - conditioin_variable
+
+
+async:
+    std::future<return-type> obj = std::async(std::launch::async | std::launch::deferred, func, ...);
+    obj.wait(); | obj.get();
+    if use deferred, the func will be invoked when obj.wait() or obj.get() in current thread.
+    if use async, the func will be invoked in new thread, and its return can be get in obj with get();
+
+    future can transfer data from one thread to another, but there is race condition when access future object from multiple threads without additional synchronization.
+    after the first call to get() there's no value left to retrieve.
+
+    
+
+
+

@@ -1,0 +1,156 @@
+keywords:
+    - cross-platform
+    - boost::asio
+    - java
+    - jni
+    - cmake
+    - c++11 thread
+    - openssl
+
+
+
+
+compile:
+    - Mac OS X:
+        gcc -dynamiclib -o libhw.jnilib hw.c -framework JavaVM -I$JAVA_HOME/include -I$JAVA_HOME/include/darwin
+
+        -dynamiclib: 表示编译成动态库
+        -framework JavaVM -I: 编译JNI需要用到JVM的头文件，第一个目录是平台无关的，第二个目录是操作系统平台相关的头文件
+
+    java.library.path: java运行时的路径
+    java -Djava.library.path=/Users/liwei/path -classpath ./src helloworld//添加路径并运行
+
+
+    第一个参数 - JNIEnv*：定义任意native函数的第一个参数，指向JVM函数表的指针，函数表中的每一个入口指向一个JNI函数，每个函数用于访问JVM中特定的数据结构
+    第二个参数 - jclass：调用Java中native方法的实例或class对象，如果这个native方法是实例方法，则该参数是jobject，如果是静态方法，则是jclass
+
+    JNIEXPORT return-type JNICALL Java_className_methodName(JNIEnv*, jobject, jint, jint);//可以自己构造
+
+    8种基本类型： byte, short, int, long, float, double, boolean, char
+
+    native中定义函数参数类型为： String，Object，MyClass，int[]
+    在生成的头文件中对应类型为：jstring，jobject，jobject，jintArray
+    jni中类型：
+        C++:
+        - 引用类型：
+            - jobject:
+                - jclass
+                - jstring
+                - jarray
+                    - jobjectArray
+                    - jbooleanArray
+                    - jbyteArray
+                    - jcharArray
+                    - jshortArray
+                    - jintArray
+                    - jlongArray
+                    - jfloatArray
+                    - jdoubleArray
+                - jthrowable
+
+        c: 所有引用类型定义为jobject
+        typedef union jvalue {  
+            jboolean z;  
+            jbyte    b;  
+            jchar    c;  
+            jshort   s;  
+            jint     i;  
+            jlong    j;  
+            jfloat   f;  
+            jdouble  d;  
+            jobject  l;  
+        } jvalue; 
+    
+    jni把java中的所有对象当作一个C指针传递到本地方法中，这个指针指向JVM中的内部数据结构，而内部数据结构在内存中的存储方式是不可见的，只能从JNIEnv指针指向的函数表中选择合适的JNI函数来操作JVM中的数据结构。
+    （*env)->GetStringUTFChars(env, j_str, &isCopy);
+    
+
+    java默认使用unicode编码，而c/c++默认使用UTF编码。
+    java遇到异常如果没有捕获，程序会立即停止运行。而JNI遇到未决的异常不会改变程序的运行流程，会继续执行。
+    在调用GetStringUTFChars函数从JVM内部获取一个字符串之后，JVM内部会分配一块新的内存。通过ReleaseStringUTFChars函数通知JVM这块内存已经不使用了。
+
+
+    JNI访问数组：
+        JNI中的数组分为基本类型数组和对象数组，基本类型数组中的所有元素都是JNI的基本数据类型，可以直接访问。
+        而对象数组中的所有元素是一个类的实例或其他数组的引用，不能直接访问Java传递给JNI层的数组。
+
+
+    运行一个java程序时，JVM会先将程序运行时所要用到所有相关的class文件加载到JVM中，并采用按需加载的方式加载，也就是说某个类只有被用到的时候才会被加载。
+    ClassLoader加载到JVM，
+
+
+
+
+info: https://mmoaay.gitbooks.io/boost-asio-cpp-network-programming-chinese/content/Chapter2.html
+
+read-write:
+    - for async: 
+        - handle: void handler(const boost::system::error_code& e, size_t bytes);
+
+        - async_receive(buffer, [flags], handler): 这个函数启动从套接字异步接收数据的操作
+        - async_read_some(buffer, handler): 与async_receive功能一样
+        - async_receive_from(buffer, endpoint[, flags], handler): 启动从一个指定端点异步接收数据的操作
+        - async_send(buffer[, flags], handler): 启动一个异步发送缓冲区数据的操作
+        - async_write_some(buffer, handler): 与async_send一样
+        - async_send_to(buffer, endpoint, handler): 启动一个异步send缓冲区数据到指定端点的操作
+        - receive(buffer [,flags]): 这个函数从所给的缓冲区读取数据。在读完所有数据或者错误出现之前，阻塞
+        - read_some(buffer): 功能和receive(buffer)一致
+        - receive_from(buffer, endpoint[,flags]): 异步从一个指定端点获取数据并写入到给定的缓冲区，操作完成或错误出现之前，阻塞
+        - send(buffer [,flags]): 同步发送缓冲区数据，在完成之前，阻塞
+        - write_some(buffer): 与send(buffer)一致
+        - send_to(buffer, endpoint [,flags]): 同步把缓冲区时间发送到一个指定端点，完成之前，阻塞
+        - available: 返回有多少字节的数据可以无阻塞进行同步读取
+
+
+    from/to : udp/icmp
+    some: tcp
+
+
+boost::asio asynchronous operatioin:
+1. 
+    - socket.async_connect(server_endpoint, your_completion_handler);    
+    - void your_completion_handler(const boost::system::error_code& ec);
+
+2.
+    - I/O object forwards the request to the io_service
+
+3.
+    - io_service signals to the operating system that it should start an asynchronous connect
+
+Time passes. (in the synchronous case this wait would have been contained entirely within the duration of the connect operation.)
+
+4.
+    - the operating system indicates that the connect operation has completed by placing the result on a queue, ready to be picked up by the io_service
+
+5.
+    - your program must make a call to io_service::run() in order for the result to be retrieved.
+      A call to io_service::run() blocks while there are unfinished asynchronous operations, 
+      so you would typically call it as soon as you have started your first asynchronous operation.
+
+6.
+    - while inside the call to io_service::run(), the io_service dequeues the result of the operation, translate it into an error_code, and then passes it to your completion handler.
+    
+
+
+共享数据：
+    - std::mutex -> std::lock_guard<std::mutex>
+    通常情况下，互斥量会与需要保护的数据放在同一类中，而不是定义成全局变量。面向对象设计的准则
+    函数返回指针或引用时，会使保护形同虚设。检查是否有指针和引用
+
+
+条件变量队列
+互斥量队列
+
+
+socket->read_some: 会读取当前buffer中所有的数据
+
+
+klink:
+    jni <-> jniInternalCpp <-> cpp
+    jni接口：
+        - 输入(JNIEnv* env, jobject obj)
+            - pointer = new Type();
+        - 输出(reinterpret_cast<jlong>(pointer));
+
+    Type由jniInternalCpp提供，
+

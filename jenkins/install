@@ -1,0 +1,7 @@
+
+
+1. install docker
+2. install jenkins
+    - plugins:
+        - ssh
+        - 
