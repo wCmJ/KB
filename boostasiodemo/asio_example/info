@@ -1,0 +1,56 @@
+5种IO模型：
+    - 阻塞
+        - 发出IO请求后阻塞，等待IO就绪
+        - 发出数据请求
+        - 阻塞等待数据拷贝完成
+
+    - 非阻塞
+        - 不停调用read/write
+        - 最后阻塞在data copy系统调用上
+
+    - IO多路复用
+        - 一个线程处理多个socket
+    
+    - 异步
+        - 线程提交IO请求之后直接返回
+        - 系统执行完IO请求，并复制到用户提供的数据区后再通知完成    
+    
+    - 信号驱动
+
+
+
+ASIO通过增加一个中间层，调用不同系统的实现。
+
+Windows： IOCP
+    - 客户向操作系统提交IO请求
+    - 操作系统完成后把IO任务提交到完成队列中
+    - 线程池不断监听完成队列是否有消息
+Linux：epoll
+    - select/poll/epoll本质上都是同步IO，在读写就绪后，自己负责读写，也就是说读写过程是阻塞的
+    - 异步IO无需自己读写，异步IO的实现会负责把数据从内核拷贝到用户空间
+    - select
+        - 将要监听的fd拷贝至内核
+        - select监听至有事件或者超时
+        - 返回时将fd从内核拷贝至用户空间
+    
+    - poll
+        - 类似select，不同之处在于用链表替换了数组
+    
+    - epoll
+        - 整个过程中只有在epoll_ctl时，将fd拷贝至内核。内核用红黑树保存所有fd，方便增加/删除
+        - 为每一个fd注册回调函数
+        - 当有fd就绪时，回调函数会把fd放入就绪链表。
+
+Unix：kqueue
+
+ASIO：
+    - Initial：
+    - Asynchronous Operation
+    - Asynchronous Operation Processor
+    - Completion Event Queue
+    - Asynchronous Event Demultiplexing
+    - Procator
+    - Completion Handler
+
+
+

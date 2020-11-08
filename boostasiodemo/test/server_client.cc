@@ -12,6 +12,27 @@
 #include <string>
 #include <thread>
 
+
+void server_do_receive(std::shared_ptr<asio::ip::tcp::socket> socket, char* buffer_, int len){
+    socket->async_read_some(
+        asio::buffer(buffer_, len),
+        [socket, buffer_, len](std::error_code ec, std::size_t bytes_receive){
+            if(!ec){
+                std::cout<<"server receive data len: "<<bytes_receive<<std::endl;
+                for(int i = 0;i<bytes_receive;++i){
+                    std::cout<<buffer_[i];
+                }
+                server_do_receive(socket, buffer_, len);
+            }
+            else{
+                socket->close();
+            }
+        }
+    );
+}
+
+
+
 void server(){
     typedef std::shared_ptr<asio::ip::tcp::socket> socket_ptr;
     asio::io_service service;
@@ -20,16 +41,17 @@ void server(){
     socket_ptr sock(new asio::ip::tcp::socket(service));
     acc.accept(*sock);
     while(true){
-        std::cout<<"server receive: "<<std::endl;
-        char data[512];
-        size_t len = sock->read_some(asio::buffer(data));
-        std::cout<<"server read_some end"<<std::endl;
-        if(len > 0){
-            std::cout<<"server receive: "<<data<<std::endl;
-            asio::write(*sock, asio::buffer("ok", 2));
+        {
+            char data[512];        
+            server_do_receive(sock, data, sizeof(data));
         }
     }
 }
+
+
+
+
+
 
 void client(){
     asio::io_service service;
@@ -38,13 +60,13 @@ void client(){
     sock.open(asio::ip::tcp::v4());
     sock.connect(ep);
     //sock.write_some(asio::buffer("GET /index.html\r\n"));
-    while(1);
-    char buff[1024];
-    std::cout<<"client receive: "<<std::endl;
-    //sock.read_some(asio::buffer(buff));
-    std::cout<<"client read_some end"<<std::endl;
-
-    std::cout<<"client receive: "<<buff<<std::endl;
+    int cnt = 10;
+    while(cnt--){
+        char *buff = "message from client";
+        std::cout<<"client receive: "<<std::endl;
+        sock.send(asio::buffer(buff, sizeof(buff)));
+        sleep(2);        
+    }
     sock.shutdown(asio::ip::tcp::socket::shutdown_receive);
     sock.close();
 }

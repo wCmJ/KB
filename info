@@ -156,6 +156,17 @@ klink:
     初始化：construct接口new对象，返回给java层（将地址转为jlong类型，reinterpret_cast<jlong>(pointer)）
     释放：destruct接口取出该对象，delete（GetLongField(obj, GetFieldId）
 
+c++ concurrency:
+    In c++, it's all about objects and memory locations.
+    - memory model
+        - structural
 
+        - concurrency
 
+mac gdb:
+    - install gdb
+    - install certificate with property of system
+    - touch gdb-entitlement.xml
+    - codesign --entitlements gdb-entitlement.xml -fs gdb_cert /usr/local/bin/gdb
+    - echo "set startup-with-shell off" >> ~/.gdbinit
 

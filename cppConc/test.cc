@@ -2,6 +2,7 @@
 #include <unistd.h>
 
 #include <thread>
+#include <atomic>
 #include <iostream>
 #include <vector>
 #include <mutex>
@@ -108,7 +109,7 @@ namespace fut{
             task();
         }
     }
-    std::thread gui_bg_thread(gui_thread);
+    //std::thread gui_bg_thread(gui_thread);
     template<typename Func>
     std::future<void> post_task_for_gui_thread(Func f){
         std::packaged_task<void()> task(f);
@@ -256,7 +257,7 @@ public:
 void oops(){
     std::cout<<std::thread::hardware_concurrency()<<std::endl;
 }
-
+/*
 std::thread g_th1, g_th2;
 
 
@@ -278,7 +279,7 @@ void thread2(){
     }
     std::cout<<"thread2 exit"<<std::endl;
 }
-
+*/
 #if 0
 std::unique_lock<std::mutex> get_lock(){
     extern std::mutex some_mutex;
@@ -324,10 +325,193 @@ public:
     }
 };
 
+void ts_bind(int p1, int p2, int p3){
+    std::cout<<p1<<std::endl;
+    std::cout<<p2<<std::endl;
+    std::cout<<p3<<std::endl;
+}
+class Base_obj{
+public:
+    class Interface{
+    public:
+        virtual void print_interface() = 0;
+    };
+    Base_obj(std::weak_ptr<Interface> delegate):delegate_(delegate), obj_(20){}
+private:
+    int obj_;
+    std::shared_ptr<Interface> delegate_;
+};
+
+
+class Object: public Base_obj::Interface, public std::enable_shared_from_this<Object> {
+public:
+    Object():obj_(10){}
+    void Init(){
+        base_obj_ = std::make_shared<Base_obj>(weak_from_this());
+    }
+    void print_interface() override{std::cout<<"implement"<<std::endl;}
+    int get_obj() const{return obj_;}
+    std::shared_ptr<Base_obj> base_obj_;
+private:
+    int obj_;
+    
+};
+using std::vector;
+using std::string;
+class Solution {
+public:
+    vector<string> removeComments(vector<string>& source) {
+        string base;
+        for(auto &str: source){
+            base += str + "\\n";
+        }
+        std::cout<<"base is: "<<base<<std::endl;
+        vector<string> res;
+        removeComments(base, res);
+        return res;
+    }
+
+    void removeComments(string base, vector<string> &res){
+        if(base.empty())return;
+        //std::cout<<"input is: "<<base<<std::endl;
+        int idx = 0;
+        while(idx < base.size()){
+            if(base[idx] == '/' && idx + 1 < base.size() && (base[idx + 1] == '/' || base[idx + 1] == '*'))break;    
+            if(base[idx] == '\\' && idx + 1 < base.size() && base[idx + 1] == 'n')break;
+            ++idx;
+        }
+        //std::cout<<"idx is: "<<idx<<". base size is: "<<base.size()<<std::endl;
+        //    ["struct Node{", "    /*/ declare members;/**/", "    int size;", "    /**/int val;", "};"]
+
+        //  "void func(int k) {", "// this function does nothing /*", "   k = k*2/4;", "   k = k/2;*/", "}"
+        int node = idx;// base[node] == '/'
+        std::string insert_str = base.substr(0, node);
+        if(base[idx] == '\\'){
+            if(!insert_str.empty())res.push_back(insert_str);
+            //std::cout<<"insert string1: "<<base.substr(0, node)<<std::endl;
+            removeComments(base.substr(idx + 2), res);
+            return;
+        }
+        else if(base[idx] == '/'){
+            if(base[idx + 1] == '/'){
+                if(!insert_str.empty())res.push_back(insert_str);
+                //std::cout<<"insert string2: "<<base.substr(0, node)<<std::endl;
+                while(idx < base.size() && base[idx] != '\\')++idx;
+                removeComments(base.substr(idx + 2), res);
+            }
+            else if(base[idx + 1] == '*'){
+                idx += 2;
+                while(idx < base.size()){
+                  if(base[idx] == '*' && base[idx + 1] == '/')break;
+                  ++idx;
+                }
+                base = base.substr(0, node) + base.substr(idx + 2);
+                removeComments(base, res);
+            }
+        }
+    }
+};
 
 
 int main(){
+
     {
+        /*std::string tmp_str = "asio";
+        std::cout<<tmp_str.size()<<std::endl;
+        tmp_str += "\\n";
+        std::cout<<tmp_str.size()<<std::endl;
+        for(int i = 0;i<tmp_str.size();++i){
+            std::cout<<tmp_str[i]<<" ";
+        }
+        std::cout<<std::endl;
+
+        return 0;*/
+        std::thread th1([]{
+          for(int i = 0;i<10000;++i){
+            sleep(2);
+            std::cout<<"thread id: "<<std::this_thread::get_id()<<std::endl;
+            int *p = NULL;
+            *p = 1;
+          }
+        });
+        for(int i = 0;i<100000;++i){
+          std::cout<<"main thread is: "<<std::this_thread::get_id()<<std::endl;
+          sleep(3);
+        }
+
+        sleep(1000);
+        
+        Solution so;
+        vector<string> input[] = {
+          {"/*Test program */","int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"}, 
+          {"struct Node{", "    /*/ declare members;/**/", "    int size;", "    /**/int val;", "};"},
+          {"void func(int k) {", "// this function does nothing /*", "   k = k*2/4;", "   k = k/2;*/", "}"}
+        };
+
+        auto res = so.removeComments(input[2]);
+        for(auto &str: res){
+            std::cout<<str<<std::endl;
+        }
+        
+
+        
+
+        
+
+    }
+    return 0;
+
+    std::shared_ptr<Object> sp = std::make_shared<Object>();
+    sp->Init();
+    int step_ = 5;
+    std::atomic<int> sai(20);
+    for(int i = 0;i<10;++i){
+        int val = sai.load();
+        std::cout<<"val: "<<val<<std::endl;
+        //sai.exchange(val + step_);
+        sai.store(val + step_);
+    }
+
+
+
+
+    std::atomic_flag af = ATOMIC_FLAG_INIT;
+
+    std::atomic<int> sa;
+    std::cout<<sa.is_lock_free()<<std::endl;
+
+
+    {
+        std::function<void()> fun;
+        //std::cout<<(int)fun<<std::endl;
+        if(fun){
+            std::cout<<"can execute"<<std::endl;
+        }
+        else{
+            std::cout<<"can not execute"<<std::endl;            
+        }
+
+
+    }
+
+
+    {
+        auto tmp = std::bind(ts_bind, std::placeholders::_2, std::placeholders::_1,std::placeholders::_2);
+        tmp(1,3);
+
+    }
+
+
+
+    int in =20;
+        if(in = 10; in != 10){
+            std::cout<<"in: "<<in<<std::endl;
+        }
+    return 0;
+    {
+        
+
+
         {
             TH_test tt;
             std::thread th = std::thread(static_cast<int (TH_test::*)()>(&TH_test::th_func), &tt);
