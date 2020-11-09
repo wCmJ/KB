@@ -34,6 +34,7 @@ public:
 
     void do_accept()
     {
+        std::cout<<"do_accept: "<<std::this_thread::get_id()<<std::endl;
         acceptor_.async_accept(
             [this](std::error_code ec, asio::ip::tcp::socket socket)
             {
@@ -46,29 +47,35 @@ public:
 
                 if (!ec)
                 {
-                    std::cout<<"accept: "<<socket.remote_endpoint().address()<<" , "<<socket.remote_endpoint().port()<<std::endl;
+                    std::cout<<"do_read: "<<socket.remote_endpoint().address()<<" , "<<socket.remote_endpoint().port()<<" ";
                     socket_ = std::move(socket);
                     do_read();                
                 }
-
                 do_accept();
             });
     }
 
     void do_read(){
+        std::cout<<"do_read: "<<std::this_thread::get_id()<<std::endl;
         socket_.async_read_some(
             asio::buffer(buf, sizeof(buf)),
             [this](std::error_code ec, std::size_t bytes){
                 if(!ec){
+                    std::cout<<"buf: "<<std::this_thread::get_id()<<" .bytes: "<<bytes<<std::endl;
                     for(int i = 0;i<bytes;++i){
                         std::cout<<buf[i];
                     }
+                    socket_.write_some(asio::buffer("I'm server."));
                     std::cout<<std::endl;
+                }
+                else{
+                    std::cout<<"ec is true"<<std::endl;
                 }
                 do_read();
             }
         );
     }
+
 
 private:
     asio::io_context io_context_;

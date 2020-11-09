@@ -52,5 +52,24 @@ ASIO：
     - Procator
     - Completion Handler
 
+async_read:
+    - read a certain number of bytes of data from a stream.
+    - always return immediately.
+    - the asynchronous operation will continue until one of the following conditions is true:
+        - buffers are full.
+        - an erro occurred.
+
+io_context replaces io_service.
+
+
+blocking funcs:
+    - asio::write: a certain amount of data
+    - asio::read: a certain amount of data
+    - asio::connect: until a connection is successfully established
+    
+non-blocking funcs:
+    - socket.async_read
+    - socket.async_read_some
+
 
 

@@ -28,14 +28,38 @@ public:
     }
 
     void do_write(){
+        std::cout<<"do_write: "<<std::this_thread::get_id()<<std::endl;
         socket_.async_write_some(
             asio::buffer("Hello Server"),
             [this](std::error_code ec, std::size_t bytes){
                 if(!ec){
-                    std::cout<<"do_write: "<<bytes<<std::endl;                    
+                    std::cout<<"ec is false. do_write: "<<bytes<<std::endl;                            
                 }
+                else{
+                    std::cout<<"ec is true. do_write: "<<bytes<<std::endl;
+                }
+                do_read();
                 sleep(1);
                 do_write();
+            }
+        );
+    }
+
+    void do_read(){
+        //std::cout<<"do_read: "<<std::this_thread::get_id()<<std::endl;
+        socket_.async_read_some(
+            asio::buffer(buf, sizeof(buf)),
+            [this](std::error_code ec, std::size_t bytes){
+                if(!ec){
+                    std::cout<<"do_read ec is false: "<<std::this_thread::get_id()<<" :";
+                    for(int i = 0;i<bytes;++i){
+                        std::cout<<buf[i];
+                    }
+                    std::cout<<std::endl;
+                }
+                else{
+                    std::cout<<"do_read ec is true"<<std::endl;
+                }
             }
         );
     }
@@ -48,6 +72,7 @@ public:
 private:
     asio::io_context io_context_;
     asio::ip::tcp::socket socket_;
+    char buf[128];
 };
 
 
