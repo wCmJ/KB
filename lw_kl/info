@@ -1,0 +1,74 @@
+
+
+two factorys create:
+    - TcpConnection: connect/read/receive/disconnect
+    - ProtocolConnection(contain TcpConnection object): 
+        - SendMessage:
+            
+CreateKlink(): IKlink, ConnectionGenerator::IDelegate, IProtocolConnection::IDelegate, 
+	- Monitor
+	- AccessPointManager: init()->new
+	- ConnectionGenerator: init()->new 
+		- ConnectionFactory: construct()->new 
+			- TcpConnection
+		- ProtocolConnectionFactory: construct()->new 
+			- ProtocolConnection
+        - io_context_.run() in a new thread.
+
+StartOrContinueRace():
+    - ConnectionGenerator.StartOrContinueRace()
+        - create Horses(IPV4-QUIC, IPV6-QUIC, IPV4-TCP, IPV6-TCP)
+            - Horse.StartRunning()
+                - use ConnectionFactory to create TcpConnection(access_pointer, Horse) and connect, if connect successfully, Horse.Onconnected() will be invoked.
+                    - Horse.Onconnected()
+                        - use ProtocolConnectionFactory to create protocol_connection
+                        - send Handshake message.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+		- list<Horse>
+			- Horse(ConnectionFactory, ProtocolConnectionFactory, TcpConnection, ProtocolConnection)
+				- 由ConnectionFactory创建TcpConnection(保存Horse的弱指针)，并且执行connect，connect中调用Horse的OnConnected(), 
+                  OnConnected中ProtocolConnectionFactory创建ProcotolConnection对象protocol_connection_，
+                  protocol_connection_执行Handshake，Handshake设置OnComplete回调函数。
+				- 
+
+		- Klink
+
+		- createHorse
+		- work_
+
+
+
+connection.h
+    - class 
+        - class IDelegate
+
+    - class IConnection
+        - class IDelegate
+
+connection_factory.h
+    - class ConnectionFactory: IConnectionFactory
+
+
+protocol_connectioin.h
+	- class IProtocolStream
+		- class IDelegate
+
+	- class IProtocolConnection
+		- class IDelegate
+
+	- class IProtocolConnectionFactory
+
+	- class ProtocolStream: IProtocolStream, Protocol::IDelegate, net::IStream::IDelegate
+
+	- class ProtocolConnection: IProtocolConnection, IConnectioin:: IDelegate, IProtocolStream::IDelegate
+
+	- class ProtocolConnectionFactory: IProtocolConnectionFactory
+
+tcp_connection.h
+    - class TcpConnection: IConnection, IStream
+
