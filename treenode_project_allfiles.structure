@@ -1,0 +1,271 @@
+/Users/youliwei/Documents/gitDir/klongconn
+├── AUTHORS
+├── CMakeLists.txt
+├── CPPLINT.cfg
+├── README.md
+├── cmake
+│   ├── FindLibUV.cmake
+│   └── ios.toolchain.cmake
+├── coverage.sh
+├── doc
+│   ├── api.md
+│   ├── architecture.md
+│   ├── how-to.md
+│   └── images
+│       └── klongconn-architecture.jpg
+├── include
+│   ├── CPPLINT.cfg
+│   └── liwei
+│       └── longconn
+│           ├── error.h
+│           ├── klongconn.h
+│           ├── klongconn_config.h
+│           ├── klongconn_host.h
+│           ├── online_listener.h
+│           ├── pass_through_transaction.h
+│           ├── preprocess.h
+│           ├── push_delegate.h
+│           ├── server_clock.h
+│           ├── transaction.h
+│           └── version.h
+├── longconn
+│   ├── access_point.cc
+│   ├── access_point.h
+│   ├── access_point_test.cc
+│   ├── config_adapter.cc
+│   ├── config_adapter.h
+│   ├── connection_generator.cc
+│   ├── connection_generator.h
+│   ├── connection_generator_test.cc
+│   ├── error.cc
+│   ├── klongconn.cc
+│   ├── klongconn.h
+│   ├── klongconn_test.cc
+│   ├── monitor
+│   │   ├── monitor.h
+│   │   ├── monitor_listener.h
+│   │   ├── qps_statistics.h
+│   │   ├── statistics.cc
+│   │   └── statistics.h
+│   ├── net
+│   │   ├── connection.h
+│   │   ├── connection_factory.h
+│   │   ├── dns_helper.cc
+│   │   ├── dns_helper.h
+│   │   ├── dns_helper_test.cc
+│   │   ├── ping.cc
+│   │   ├── ping.h
+│   │   ├── ping_test.cc
+│   │   ├── tcp_connection.cc
+│   │   ├── tcp_connection.h
+│   │   └── tcp_connection_test.cc
+│   ├── pass_through_transaction.cc
+│   ├── pass_through_transaction.h
+│   ├── protocol.cc
+│   ├── protocol.h
+│   ├── protocol_connection.cc
+│   ├── protocol_connection.h
+│   ├── protocol_connection_test.cc
+│   ├── protocol_metadata.h
+│   ├── protocol_test.cc
+│   ├── server_clock.cc
+│   ├── server_clock.h
+│   ├── server_clock_test.cc
+│   ├── session.h
+│   ├── test_implement.h
+│   ├── test_main.cc
+│   ├── transaction.cc
+│   ├── transaction.h
+│   ├── transaction_test.cc
+│   ├── util
+│   │   ├── asio_throw_exception.h
+│   │   ├── circular_buffer.h
+│   │   ├── circular_buffer_test.cc
+│   │   ├── helper
+│   │   │   └── universal_call.h
+│   │   ├── logging.cc
+│   │   ├── logging.h
+│   │   ├── logging_test.cc
+│   │   ├── misc.cc
+│   │   ├── misc.h
+│   │   ├── misc_test.cc
+│   │   ├── preprocess.h
+│   │   ├── queue.cc
+│   │   ├── queue.h
+│   │   ├── queue_test.cc
+│   │   ├── sequence_generator.h
+│   │   └── sml_helper.h
+│   ├── version.cc
+│   └── version_test.cc
+├── port
+│   ├── android
+│   │   ├── app
+│   │   │   ├── build.gradle
+│   │   │   ├── proguard-rules.pro
+│   │   │   └── src
+│   │   │       ├── androidTest
+│   │   │       │   └── java
+│   │   │       │       └── com
+│   │   │       │           └── example
+│   │   │       │               └── myapplication
+│   │   │       │                   └── ExampleInstrumentedTest.java
+│   │   │       ├── main
+│   │   │       │   ├── AndroidManifest.xml
+│   │   │       │   ├── java
+│   │   │       │   │   └── com
+│   │   │       │   │       ├── example
+│   │   │       │   │       │   └── myapplication
+│   │   │       │   │       │       └── MainActivity.java
+│   │   │       │   │       └── liwei
+│   │   │       │   │           └── infra
+│   │   │       │   │               └── klongconn
+│   │   │       │   │                   └── InfraKlongconn.java
+│   │   │       │   └── res
+│   │   │       │       ├── drawable
+│   │   │       │       │   └── ic_launcher_background.xml
+│   │   │       │       ├── drawable-v24
+│   │   │       │       │   └── ic_launcher_foreground.xml
+│   │   │       │       ├── layout
+│   │   │       │       │   └── activity_main.xml
+│   │   │       │       ├── mipmap-anydpi-v26
+│   │   │       │       │   ├── ic_launcher.xml
+│   │   │       │       │   └── ic_launcher_round.xml
+│   │   │       │       ├── mipmap-hdpi
+│   │   │       │       │   ├── ic_launcher.png
+│   │   │       │       │   └── ic_launcher_round.png
+│   │   │       │       ├── mipmap-mdpi
+│   │   │       │       │   ├── ic_launcher.png
+│   │   │       │       │   └── ic_launcher_round.png
+│   │   │       │       ├── mipmap-xhdpi
+│   │   │       │       │   ├── ic_launcher.png
+│   │   │       │       │   └── ic_launcher_round.png
+│   │   │       │       ├── mipmap-xxhdpi
+│   │   │       │       │   ├── ic_launcher.png
+│   │   │       │       │   └── ic_launcher_round.png
+│   │   │       │       ├── mipmap-xxxhdpi
+│   │   │       │       │   ├── ic_launcher.png
+│   │   │       │       │   └── ic_launcher_round.png
+│   │   │       │       └── values
+│   │   │       │           ├── colors.xml
+│   │   │       │           ├── strings.xml
+│   │   │       │           └── styles.xml
+│   │   │       └── test
+│   │   │           └── java
+│   │   │               └── com
+│   │   │                   └── example
+│   │   │                       └── myapplication
+│   │   │                           └── ExampleUnitTest.java
+│   │   ├── build.gradle
+│   │   ├── gradle
+│   │   │   └── wrapper
+│   │   │       ├── gradle-wrapper.jar
+│   │   │       └── gradle-wrapper.properties
+│   │   ├── gradle.properties
+│   │   ├── gradlew
+│   │   ├── gradlew.bat
+│   │   ├── klongconn
+│   │   │   ├── build.gradle
+│   │   │   ├── consumer-rules.pro
+│   │   │   ├── proguard-rules.pro
+│   │   │   └── src
+│   │   │       ├── main
+│   │   │       │   ├── AndroidManifest.xml
+│   │   │       │   ├── java
+│   │   │       │   │   └── com
+│   │   │       │   │       └── liwei
+│   │   │       │   │           └── longconn
+│   │   │       │   │               ├── IKlongconnConfig.java
+│   │   │       │   │               ├── IKlongconnHost.java
+│   │   │       │   │               ├── IKlongconnOnlineListener.java
+│   │   │       │   │               ├── IKlongconnPushDelegate.java
+│   │   │       │   │               ├── Klongconn.java
+│   │   │       │   │               ├── PassThroughTransaction.java
+│   │   │       │   │               ├── PushTokenInfo.java
+│   │   │       │   │               ├── ServerClock.java
+│   │   │       │   │               ├── Transaction.java
+│   │   │       │   │               └── model
+│   │   │       │   │                   ├── ApplicationInfo.java
+│   │   │       │   │                   ├── ILog.java
+│   │   │       │   │                   ├── LogConfig.java
+│   │   │       │   │                   ├── NetworkInfo.java
+│   │   │       │   │                   └── ZtCommonInfo.java
+│   │   │       │   └── native
+│   │   │       │       ├── CMakeLists.txt
+│   │   │       │       ├── jni
+│   │   │       │       │   ├── com_liwei_longconn_Klongconn.cc
+│   │   │       │       │   ├── com_liwei_longconn_Klongconn.h
+│   │   │       │       │   ├── com_liwei_longconn_PassThroughTransaction.cc
+│   │   │       │       │   ├── com_liwei_longconn_PassThroughTransaction.h
+│   │   │       │       │   ├── com_liwei_longconn_ServerClock.cc
+│   │   │       │       │   ├── com_liwei_longconn_ServerClock.h
+│   │   │       │       │   ├── com_liwei_longconn_Transaction.cc
+│   │   │       │       │   ├── com_liwei_longconn_Transaction.h
+│   │   │       │       │   ├── config_internal.cc
+│   │   │       │       │   ├── config_internal.h
+│   │   │       │       │   ├── host_internal.cc
+│   │   │       │       │   ├── host_internal.h
+│   │   │       │       │   ├── jni_onload.cc
+│   │   │       │       │   ├── klongconn_internal.cc
+│   │   │       │       │   ├── klongconn_internal.h
+│   │   │       │       │   ├── online_listener_internal.cc
+│   │   │       │       │   ├── online_listener_internal.h
+│   │   │       │       │   ├── pass_through_transaction_internal.h
+│   │   │       │       │   ├── push_delegate_internal.cc
+│   │   │       │       │   ├── push_delegate_internal.h
+│   │   │       │       │   ├── server_clock_internal.h
+│   │   │       │       │   ├── transaction_internal.h
+│   │   │       │       │   ├── utils.cc
+│   │   │       │       │   └── utils.h
+│   │   │       │       └── klongconn
+│   │   │       │           └── include -> ../../../../../../../include
+│   │   │       └── test
+│   │   │           └── java
+│   │   │               └── com
+│   │   │                   └── liwei
+│   │   │                       └── longconn
+│   │   │                           └── KlongconnTest.java
+│   │   └── settings.gradle
+│   └── c
+│       ├── include
+│       │   └── liwei
+│       │       └── longconn
+│       │           ├── error.h
+│       │           ├── klongconn-c.h
+│       │           ├── klongconn_config-c.h
+│       │           ├── klongconn_host-c.h
+│       │           ├── online_listener-c.h
+│       │           ├── push_delegate-c.h
+│       │           ├── server_clock.h
+│       │           ├── transaction-c.h
+│       │           ├── types.h
+│       │           └── version.h
+│       └── src
+│           ├── klongconn-c.cc
+│           ├── online_listener-c.cc
+│           ├── online_listener_internal.h
+│           ├── transaction-c.cc
+│           └── transaction-internal.h
+├── test
+│   └── client
+│       ├── CMakeLists.txt
+│       ├── main.cc
+│       ├── online.cc
+│       └── online.py
+├── third_party
+│   ├── asio
+│   ├── boringssl
+│   ├── googletest
+│   ├── jsoncpp
+│   ├── liwei-im-acc-proto
+│   ├── lz4
+│   ├── protobuf
+│   ├── sml
+│   └── spdlog
+├── uml
+│   ├── 0.test.uml
+│   ├── 0.test.utxt
+│   ├── 1.usecase.png
+│   └── 1.usecase.uml
+└── version.h.in
+
+81 directories, 187 files

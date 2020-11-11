@@ -7,3 +7,6 @@
 [submodule "third_party/sml"]
 	path = third_party/sml
 	url = https://github.com/boost-ext/sml.git
+[submodule "third_party/muduo"]
+	path = third_party/muduo
+	url = https://github.com/chenshuo/muduo.git

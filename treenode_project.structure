@@ -1,0 +1,84 @@
+/Users/youliwei/Documents/gitDir/klongconn
+├── cmake
+├── doc
+│   └── images
+├── include
+│   └── k_nei
+│       └── longconn
+├── longconn
+│   ├── monitor
+│   ├── net
+│   └── util
+│       └── helper
+├── port
+│   ├── android
+│   │   ├── app
+│   │   │   └── src
+│   │   │       ├── androidTest
+│   │   │       │   └── java
+│   │   │       │       └── com
+│   │   │       │           └── example
+│   │   │       │               └── myapplication
+│   │   │       ├── main
+│   │   │       │   ├── java
+│   │   │       │   │   └── com
+│   │   │       │   │       ├── example
+│   │   │       │   │       │   └── myapplication
+│   │   │       │   │       └── liwei
+│   │   │       │   │           └── infra
+│   │   │       │   │               └── klongconn
+│   │   │       │   └── res
+│   │   │       │       ├── drawable
+│   │   │       │       ├── drawable-v24
+│   │   │       │       ├── layout
+│   │   │       │       ├── mipmap-anydpi-v26
+│   │   │       │       ├── mipmap-hdpi
+│   │   │       │       ├── mipmap-mdpi
+│   │   │       │       ├── mipmap-xhdpi
+│   │   │       │       ├── mipmap-xxhdpi
+│   │   │       │       ├── mipmap-xxxhdpi
+│   │   │       │       └── values
+│   │   │       └── test
+│   │   │           └── java
+│   │   │               └── com
+│   │   │                   └── example
+│   │   │                       └── myapplication
+│   │   ├── gradle
+│   │   │   └── wrapper
+│   │   └── klongconn
+│   │       └── src
+│   │           ├── main
+│   │           │   ├── java
+│   │           │   │   └── com
+│   │           │   │       └── k_nei
+│   │           │   │           └── longconn
+│   │           │   │               └── model
+│   │           │   └── native
+│   │           │       ├── jni
+│   │           │       └── klongconn
+│   │           │           └── include -> ../../../../../../../include
+│   │           └── test
+│   │               └── java
+│   │                   └── com
+│   │                       └── k_nei
+│   │                           └── longconn
+│   └── c
+│       ├── include
+│       │   └── k_nei
+│       │       └── longconn
+│       └── src
+├── test
+│   └── client
+├── third_party
+│   ├── asio
+│   ├── boringssl
+│   ├── googletest
+│   ├── jsoncpp
+│   ├── liwei-im-acc-proto
+│   ├── lz4
+│   ├── protobuf
+│   ├── sml
+│   └── spdlog
+└── uml
+
+81 directories

@@ -1,0 +1,84 @@
+./
+├── cmake
+├── doc
+│   └── images
+├── include
+│   └── kwai
+│       └── link
+├── link
+│   ├── monitor
+│   ├── net
+│   └── util
+│       └── helper
+├── port
+│   ├── android
+│   │   ├── app
+│   │   │   └── src
+│   │   │       ├── androidTest
+│   │   │       │   └── java
+│   │   │       │       └── com
+│   │   │       │           └── example
+│   │   │       │               └── myapplication
+│   │   │       ├── main
+│   │   │       │   ├── java
+│   │   │       │   │   └── com
+│   │   │       │   │       ├── example
+│   │   │       │   │       │   └── myapplication
+│   │   │       │   │       └── kuaishou
+│   │   │       │   │           └── infra
+│   │   │       │   │               └── klink
+│   │   │       │   └── res
+│   │   │       │       ├── drawable
+│   │   │       │       ├── drawable-v24
+│   │   │       │       ├── layout
+│   │   │       │       ├── mipmap-anydpi-v26
+│   │   │       │       ├── mipmap-hdpi
+│   │   │       │       ├── mipmap-mdpi
+│   │   │       │       ├── mipmap-xhdpi
+│   │   │       │       ├── mipmap-xxhdpi
+│   │   │       │       ├── mipmap-xxxhdpi
+│   │   │       │       └── values
+│   │   │       └── test
+│   │   │           └── java
+│   │   │               └── com
+│   │   │                   └── example
+│   │   │                       └── myapplication
+│   │   ├── gradle
+│   │   │   └── wrapper
+│   │   └── klink
+│   │       └── src
+│   │           ├── main
+│   │           │   ├── java
+│   │           │   │   └── com
+│   │           │   │       └── kwai
+│   │           │   │           └── link
+│   │           │   │               └── model
+│   │           │   └── native
+│   │           │       ├── jni
+│   │           │       └── klink
+│   │           │           └── include -> ../../../../../../../include
+│   │           └── test
+│   │               └── java
+│   │                   └── com
+│   │                       └── kwai
+│   │                           └── link
+│   └── c
+│       ├── include
+│       │   └── kwai
+│       │       └── link
+│       └── src
+├── test
+│   └── client
+├── third_party
+│   ├── asio
+│   ├── boringssl
+│   ├── googletest
+│   ├── jsoncpp
+│   ├── kuaishou-im-acc-proto
+│   ├── lz4
+│   ├── protobuf
+│   ├── sml
+│   └── spdlog
+└── uml
+
+81 directories
