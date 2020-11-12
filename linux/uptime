@@ -1,0 +1,29 @@
+keywords:
+    平均负载
+    CPU使用率
+    uptime
+    stress
+    mpstat
+    pidstat
+    
+
+
+平均负载：单位时间内，系统处于可运行转态和不可中断状态的平均进程数。
+    不仅包括正在使用CPU的进程，还包括等待CPU和IO的进程
+
+
+uptime:
+    current-time run-time, 1-min load average 5-min load average 15-min load average
+    watch -d uptime
+
+stress:
+    stress --cpu 1 --timeout 600
+    stress -i 1 --timeout 600   #io
+    stress -c 8 --timeout 600   #process
+
+mpstat: #cpuinfo
+    mpstat -P ALL 5 #5s fresh
+
+pidstat: #process
+    pidstat -u 5 1
+
