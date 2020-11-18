@@ -1,0 +1,37 @@
+keywords:
+    virtual memory
+        - kernal memory
+        - stack
+
+        - shared file
+            - mmap : back to system when re-back
+        - heap
+            - brk: keep by process when re-back
+        - data
+        - read-only
+    physical memory
+
+
+内存性能指标：
+    - 系统内存使用情况：
+        - 已用内存
+        - 剩余内存
+        - 共享内存
+        - 可用内存： 包括可用内存和可回收缓存
+        - 缓存
+        - 缓冲区
+    - 进程内存使用情况：
+        - 虚拟内存
+        - 常驻内存
+        - 共享内存
+        - swap内存
+        
+
+
+
+
+
+
+
+
+

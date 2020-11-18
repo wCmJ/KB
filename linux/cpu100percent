@@ -1,0 +1,11 @@
+keywords:
+    - top
+    - ps
+    - pidstat
+    - pstree
+    - perf
+        - perf record -g
+        - perf report
+
+
+
