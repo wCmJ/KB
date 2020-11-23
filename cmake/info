@@ -1,0 +1,6 @@
+project(pro VERSION 1.0)
+    - 会生成两个变量：pro_VERSION_MAJOR, pro_VERSION_MINOR
+
+
+
+
