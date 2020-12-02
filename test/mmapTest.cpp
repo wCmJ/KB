@@ -5,6 +5,13 @@
 
 #include <thread>
 
+typedef void*(*)(int) FUNC_1;
+
+void* impl(int input){
+    std::cout<<input<<std::endl;
+    return NULL;
+}
+
 std::once_flag g_flag;
 static void do_once(){
     std::cout<<"do_once"<<std::endl;
@@ -12,6 +19,9 @@ static void do_once(){
 
 
 int main(){
+
+    FUNC_1 funcs[20];
+    
 
     for(int i = 0;i<20;++i){
         std::call_once(g_flag, do_once);
