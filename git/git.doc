@@ -1,5 +1,5 @@
 git-doc
-	- git diff: get difference between local and stage
+	- git diff: get difference between Local and stage
 	- git diff --cached: get difference between stage and repository
 	- git log -p: show details in every commit
 	- git log --stat --summary: show how many files have been changed  
