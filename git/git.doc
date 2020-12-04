@@ -1,0 +1,3 @@
+git-doc
+git diff: get difference between local and stage
+git diff --cached: get difference between stage and repository
