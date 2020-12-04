@@ -1,4 +1,8 @@
 git-doc
 	- git diff: get difference between local and stage
 	- git diff --cached: get difference between stage and repository
-
+	- git log -p: show details in every commit
+	- git log --stat --summary: show how many files have been changed  
+	- git commit -a: for existed and changed files, execute add and commit
+	- git branch new-branch
+	- git switch new-branch
