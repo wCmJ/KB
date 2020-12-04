@@ -6,3 +6,5 @@ git-doc
 	- git commit -a: for existed and changed files, execute add and commit
 	- git branch new-branch  
 	- git switch new-branch
+	- git branch -d new-branch
+	- git branch -D new-branch
