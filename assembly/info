@@ -87,3 +87,12 @@ AX，BX，CX，DX
     - 段前缀
         - mov ax, cs:[bx]
 
+    - [bx+idata]:
+        - mov ax, [bx + 200] = (ax) = ((ds)*16 + (bx) + 200)
+        - mov ax, [200 + dx]
+        - mov ax, 200[bx]
+        - mov ax, [bx].200
+
+
+
+
