@@ -8,3 +8,11 @@ git-doc
 	- git switch new-branch
 	- git branch -d new-branch
 	- git branch -D new-branch
+
+	查看文件/目录所有提交的commitid: 
+		- git rev-list --all -- testdir/
+		- git rev-list --all -- testdir/testfile/file
+
+
+
+
