@@ -1,0 +1,22 @@
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenCentral()
+}
+
+group = GROUP//set in gradle.properties
+version = VERSION//set in gradle.properties
+
+task uploadLocal(type: Upload) {
+    // 需要把config设置成project的，要不然会报错
+    configuration = project.configurations.findByName('archives')
+    repositories {
+        mavenDeployer {
+            def localDir = uri("${rootProject.buildFile.parentFile.absolutePath}/repos")
+            println('ylw mvn publish, localDir:' + localDir)
+            snapshotRepository(url: localDir)
+            repository(url: localDir)
+        }
+    }
+}

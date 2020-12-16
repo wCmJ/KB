@@ -1,0 +1,49 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+    }
+
+    packagingOptions {
+        doNotStrip '**/armeabi-v7a/*.so'
+        doNotStrip '**/arm64-v8a/*.so'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        check 'NewApi', 'RxJavaEmptyErrorConsumer', 'InlinedApi', 'PluginNotRegistered'
+        abortOnError true
+        tasks.lint.enabled = true
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'failed', 'skipped', 'standardOut', 'standardError'
+        }
+    }
+}
+
+
+dependencies {
+    api "com.android.support:support-annotations:26.0.2"
+    compileOnly 'javax.annotation:javax.annotation-api:1.4'
+    api fileTree(dir: "libs", include: '*.jar')
+}
+
+apply from: rootProject.file('gradle/mvn-publish.gradle')
