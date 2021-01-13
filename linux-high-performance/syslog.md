@@ -11,6 +11,11 @@
 
 * 用户信息
 
+int setuid(uid_t);
+int seteuid(uid_t);
+int setgid(gid_t);
+int setegid(gid_t);
+
 UID
     - 当前进程的真实用户ID
 EUID
@@ -49,4 +54,21 @@ EGID
         return true;
     }
 '''
+
+一个进程只能设置自己或其子进程的PGID，子进程执行exec后，父进程不能再对其设置PGID。
+
+coredump is a file containing process memory contents when the process terminated unexpectedly.
+
+program crash -> kernel trigger -> coredump file
+
+临时开启：ulimit -S -c unlimited
+    -S: soft
+    -c: size
+
+永久开启：echo "* soft core unlimited" >> /etc/security/limit.conf
+
+coredump file location stored in: /proc/sys/kernel/core_pattern
+    /data/coredump/core-%t-%u-%g-%s-%p-%e
+
+
 
