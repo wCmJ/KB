@@ -1,0 +1,48 @@
+主要内容：
+
+1. DA优化：
+
+   1. 背景：debug版本全量和增量编译慢，影响开发。
+
+   2. 解决办法：引入DA，在CICD时将各个模块编译成aar，并上传至repo
+
+      在基于此版本的后续编译中，只对源码改动模块进行全量编译，其余模块均替换为aar依赖，加速编译。
+
+      收益明显：
+
+      产生问题：
+
+      1. 资源覆盖，aar依赖替换时，将多层依赖改为单层依赖，并且未对顺序做处理，导致之前低优先级模块的优先级提高。
+
+         1. 调研过程：资源冲突，导致资源失效。失效的原因在于所在模块的优先级较低，被高优先级资源覆盖。
+            1. 确定模块优先级规则
+            2. 修改模块优先级，由于在全源码编译时没有这个问题，所以保证模块顺序和全源码一致即可
+         2. 资源冲突时优先级：
+            1. APP高于AAR
+            2. AAR之间有依赖时，上层依赖高
+            3. AAR之间无依赖时，越靠近依赖树顶部的优先级越高
+            4. api > implementation，高层级 > 低层级。先根据层级判断，再根据依赖方式判断。
+
+      2. 新增代码不生效：
+
+         原因：增量编译后，dexMerger后会存在两个class，且老代码对应的优先级更高。动态aar将nonExternalJars转换为externalLibs，导致全量和增量编译时，一次使用了合并，一次没有使用，增量编译时，不能将之前的dex文件删除。
+
+         gradle内部将依赖模块分为三类（directoryInputs、externalLibs、nonExternalJars）,默认情况下，为了提升增量编译时间，每个模块会单独merge，生成各自的dex文件。但在Android L上（对应API level为21，22），dex文件数量上限为100，gradle在满足条件时，会将所有directoryInputs在一个dex merger invocation中进行merge，即执行合并操作，输出为一个文件夹。将所有的non-external jar做同样的处理。
+
+         
+
+         如何区分这三种类型：
+
+         1. 通过TransformInput.getDirectoryInputs可以拿到所有的directoryInput，即gradle已经区分出该种类型
+         2. 在TransformInput.getJarInputs中，Scope类型为EXTERNAL_LIBRARIES的均为externalLibs，其余类型的为nonExternalJars。
+         3. ____content____.json中记录所有模块的生成信息：
+            1. name：输入，对应上一个transform的信息
+            2. index：输出序号
+            3. scopes：EXTERNAL_LIBRARIES/ SUB_PROJECTS/ PROJECT/
+            4. types：CLASSES/ DEX_ARCHIVE/ DEX
+            5. format：JAR/ DIRECTORY/ 
+            6. present：上一次编译时存在该值为true，不存在为false
+
+         DefaultCombineTransform -> dexBuilder -> dexMerger
+
+      3. 扫描失效aar：一个模块发生变化，所有依赖该模块均需要重新生成aar
