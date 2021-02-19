@@ -1,0 +1,73 @@
+gcc -ggdb -Wall -o gdbtest gdbtest.c
+
+
+调试程序：带参数和不带参数
+    gdb program
+    gdb --args program arg1 arg2 ... argN
+    gdb program
+    r arg1 arg2 ... argN
+
+打印源代码：
+    l 行号
+    l 函数名
+
+设置断点：
+    b 行号
+    b +num，相对于当前行的某行
+    b filename: function
+    b filename: linenum
+    b *(memory address)
+    b <...> if condition
+
+为断点设置命令行：
+    command bnum
+
+4个打印指令：
+
+打印backtrace：
+    backtrace
+    info stack
+
+将一个函数执行到最后：
+    fin
+
+打印当前stack：
+    where
+
+打印当前行号：
+    frame
+
+
+6个和变量相关命令：
+
+打印标准变量
+    p <<variable>>
+
+打印结构体变量
+    p <<structure>>
+
+打印指针变量
+    p <<*ptr>>
+
+打印宏
+    p/x DBG_FLAG
+
+打印数组
+    p arr
+    p *&arr[]
+
+条件断点
+    新增： b foo if i == N
+    修改： condition 1 i == N
+
+忽略断点
+    ignore 1 1000，忽略该断点1000次
+
+删除断点
+    d bnum
+
+
+
+查看线程信息：
+    i threads
+    info threads

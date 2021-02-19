@@ -7,5 +7,7 @@ keywords:
         - perf record -g
         - perf report
 
+第一步：找出CPU占用率高的进程，工具有top/ps/pidstat
+第二步：找出进程中出问题的函数，工具有gdb/perf，由于gdb会中断程序的运行，一般在分析后期使用。perf使用方式有：perf top/ perf record
 
-
+在某些情况下，出问题的进程id一直在变，可能是由于一直重启，或者运行很短时间就退出，可以使用pstree查看父进程。此时出问题的是父进程。
