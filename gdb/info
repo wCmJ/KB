@@ -71,3 +71,20 @@ gcc -ggdb -Wall -o gdbtest gdbtest.c
 查看线程信息：
     i threads
     info threads
+
+调试子进程(fork调用生成)：
+    1. 找到子进程PID
+    2. gdb
+    3. attach PID
+    4. bt/c/...
+
+使用调试器选项follow-fork-mode
+    1. set follow-fork-mode mode(parent/child)
+
+gdb调试多线程程序：
+    1. info threads：显示当前可调试的所有线程
+    2. thread ID：调试目标ID指定的线程
+    3. set scheduler-locking[off|on|step]：调试多线程程序时，默认除了被调试的线程外，其余线程也在继续执行。但有时候希望只让被调试的线程执行
+       off：表示不锁定任何线程，所有线程都可以执行，这是默认值
+       on：表示只有当前被调试的线程会执行
+       step：表示在单步执行的时候，只有当前线程会执行
