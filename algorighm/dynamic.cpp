@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
-
+#include <string>
+#include <unordered_set>
 
 /*
     n个栅栏，k中颜色，不存在超过2个相邻柱子颜色相同，共有多少种染色方案？
@@ -57,8 +58,47 @@ bool wall(int x, std::vector<int> heights){
     return F[x];
 }
 
+/*
+    单词拆分
+    给出一个单词表和一条去掉所有空格的句子，根据给出的单词表添加空格，返回可以构成的句子的数量
+    比如：
+    "CatMat"
+    ["Cat", "Mat", "Ca", "tM", "at", "C", "Dog", "og", "Do"]
+*/
+
+int word_cut(const std::vector<std::string>& words, const std::string& s){
+    int len = s.size();
+    if(len == 0 || words.empty())return 0;
+    std::unordered_set<std::string> ws;
+    for(auto &w: words){
+        ws.insert(w);
+    }
+    std::vector<int> dp(len, 0);
+    for(int i = 0;i<len;++i){
+        if(ws.count(s.substr(0, i+1))){
+            dp[i] = 1;
+        }
+        for(int j = 0;j<i;++j){
+            if(dp[j] > 0 && ws.count(s.substr(j+1, i - j))){
+                dp[i] += dp[j];
+            }
+        }
+    }
+    return dp[len-1];
+}
+
 
 int main(){
+    {
+        std::cout<<"word_cut start"<<std::endl;
+        std::vector<std::string> words{"Cat", "Mat", "Ca", "tM", "at", "C", "Dog", "og", "Do"};
+        std::string s = "CatMat";
+        std::cout<<"    "<<word_cut(words, s)<<std::endl;
+        std::cout<<"word_cut end"<<std::endl;
+    }
+
+
+
     std::cout<<color_counts(3,2)<<std::endl;
     std::cout<<color_counts(4,2)<<std::endl;
 
