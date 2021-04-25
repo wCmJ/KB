@@ -1,11 +1,11 @@
-创建虚拟环境：
+# 创建虚拟环境：
     - python3 -m venv env
 
-激活虚拟环境
+# 激活虚拟环境
     - . env/bin/activate
 
 
-面向对象
+# 面向对象
     - 双下划线开头的变量和函数，需要增加前缀_className才能访问
     - 实际开发中，不建议将属性设置为私有的，这会导致子类无法访问
     - 可以采用单下划线开头，表示属性是受保护的
@@ -23,7 +23,7 @@
         - has-a
         - use-a
 
-文件和异常
+# 文件和异常
     - 通过内置函数open，可以指定文件名、操作模式、编码信息来获得操作文件的对象，
         操作模式	 具体含义
         'r'	        读取 （默认）
@@ -48,11 +48,11 @@
             - load：将文件中的json数据反序列成对象
             - loads：将字符串的内容反序列化成python对象
 
-正则表达式
+# 正则表达式
     - r''，r表示原始字符串，字符串中的每个字符都是它本来的意义
 
 
-装饰器
+# 装饰器
     - 定义函数，把函数赋值给一个变量
     - 函数中定义函数
     - 函数返回另一个函数
@@ -65,11 +65,46 @@
     等价于 f = a(b(c(f)))
 
 
-协程
+# 协程
     - 单线程 + 异步IO称为协程
     - 有了协程的支持，可以基于事件驱动编写高效的多任务程序
     - 优势一：协程效率高，因为子程序切换不是线程切换，由程序自身控制，没有线程切换的开销
     - 优势二：不需要锁机制，只有一个线程，不存在读写变量冲突，控制变量资源不用加锁，判断状态就可以了
 
 
+```
+def scope_test():
+    def do_local():
+        spam = "local spam"
+
+    def do_nonlocal():
+        nonlocal spam
+        spam = "non local spam"
+
+    def do_global():
+        global spam
+        spam = "global spam"
+
+    spam = "test spam"
+    do_local()
+    print("After local assignment: ", spam)
+    do_nonlocal()
+    print("After nonlocal assignment: ", spam)
+    do_global()
+    print("After global assignment: ", spam)
+
+
+scope_test()
+print("In global scope:", spam)
+
+nonlocal 会引用此作用域外层的变量，需要实现定义好
+global 会引用全局变量，事先可以不存在
+
+
+------------------------------------------------------------------------------------------------------------------------------
+@dataclass
+class Error:
+    tricks = []
+    level = 1
+    line = 2
 

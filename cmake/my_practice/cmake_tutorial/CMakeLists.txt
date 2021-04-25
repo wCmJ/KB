@@ -4,6 +4,8 @@ project(Tutorial VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_COMMAND} -E time")
+set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CMAKE_COMMAND} -E time")
 
 option(USE_MYMATH "Use tutorial provided math implementation" ON)
 configure_file(tutorial.h.in tutorial.h)
